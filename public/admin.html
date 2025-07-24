@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang quản trị điểm danh</title>
+</head>
+<body>
+  <h2>Quản trị điểm danh</h2>
+  <button onclick="window.location.href='/scan'">Quay về quét QR</button>
+  <div id="attendance-table"></div>
+  <button onclick="exportCSV()">Xuất file CSV</button>
+  <script>
+    // Lấy danh sách điểm danh
+    fetch('/api/attendance', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        let html = '<table border="1">';
+        data.forEach(row => {
+          html += '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+        });
+        html += '</table>';
+        document.getElementById('attendance-table').innerHTML = html;
+      });
+
+    function exportCSV() {
+      window.location.href = "/api/export-csv";
+    }
+  </script>
+</body>
+</html>

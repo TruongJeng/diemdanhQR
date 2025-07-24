@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>ĐIỂM DANH QR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(135deg, #b2f7ef 0%, #7be495 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 rgba(34, 139, 34, 0.15);
+      padding: 36px 24px 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: float-in 1s cubic-bezier(.68,-0.55,.27,1.55);
+      margin-top: 32px;
+    }
+    @keyframes float-in {
+      0% { transform: translateY(40px) scale(0.95); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    h2 {
+      color: #2ecc71;
+      margin-bottom: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+      text-shadow: 0 2px 8px #b2f7ef55;
+    }
+    #reader {
+      width: 320px;
+      max-width: 90vw;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px #b2f7ef33;
+      background: #f6fff8;
+    }
+    #result {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      color: #27ae60;
+      min-height: 24px;
+      text-align: center;
+      word-break: break-all;
+    }
+    .btn-back {
+      margin-top: 18px;
+      background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #b2f7ef55;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-back:hover {
+      background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    @media (max-width: 400px) {
+      .qr-container { padding: 16px 2vw; }
+      #reader { width: 95vw; }
+    }
+  </style>
+</head>
+<body>
+  <div class="qr-container">
+    <h2>Điểm danh bằng mã QR</h2>
+    <div id="reader"></div>
+    <div id="result"></div>
+    <button class="btn-back" onclick="window.location.href='/admin'">← Quay lại trang quản trị</button>
+  </div>
+  <script src="QR.js"></script>
+</body>
+</html>

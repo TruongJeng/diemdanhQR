@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang quản trị điểm danh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  body {
+    margin: 0;
+    font-family: 'Quicksand', Arial, sans-serif;
+    background: linear-gradient(135deg, #b2f7ef 0%, #7be495 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(34, 139, 34, 0.15);
+    padding: 36px 24px 28px 24px;
+    margin-top: 48px;
+    width: 95vw;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: float-in 1s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  @keyframes float-in {
+    0% { transform: translateY(40px) scale(0.95); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  h2 {
+    color: #2ecc71;
+    margin-bottom: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 3rem;
+    text-shadow: 0 2px 8px #b2f7ef55;
+  }
+  .btn-group {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 24px;
+    margin-top: 8px;
+  }
+  .btn-main {
+    background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #b2f7ef55;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-main:hover {
+    background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+    transform: translateY(-2px) scale(1.03);
+  }
+  #attendance-table {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 12px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #f6fff8;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px #b2f7ef33;
+  }
+  th, td {
+    padding: 10px 14px;
+    border: 1px solid #b2f7ef;
+    text-align: center;
+    font-size: 1rem;
+  }
+  th {
+    background: #eaffea;
+    color: #2ecc71;
+    font-weight: 700;
+  }
+
+  /* Responsive cho tablet và mobile */
+  @media (max-width: 900px) {
+    .clb-header { margin-left: 54px; }
+    .container {
+      max-width: 99vw;
+      padding: 18px 2vw;
+    }
+    .btn-group {
+      gap: 10px;
+    }
+    th, td {
+      font-size: 0.98rem;
+      padding: 8px 6px;
+    }
+  }
+  @media (max-width: 600px) {
+    .clb-header { margin-left: 0; }
+    .container {
+      padding: 12px 2vw;
+      margin-top: 16px;
+    }
+    .btn-group {
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-main {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 1rem;
+    }
+    th, td {
+      font-size: 0.92rem;
+      padding: 7px 3px;
+    }
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
+  /* Ẩn bớt cột phụ trên mobile nếu muốn */
+  @media (max-width: 430px) {
+    td:nth-child(2), th:nth-child(2), /* tên */
+    td:nth-child(3), th:nth-child(3), /* Mã số */
+    td:nth-child(6), th:nth-child(6)  /* Thời gian */
+    { display: none; }
+  }
+  /* Header đẹp kiểu TDTU */
+.clb-header {
+  width: 100vw;
+  background: #fff;
+  box-shadow: 0 2px 12px #b2f7ef33;
+  padding: 0;
+  margin: 0 0 24px 0;
+  position: relative;
+  z-index: 10;
+  margin-left: 210px;
+}
+.clb-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 24px 10px 18px;
+}
+.clb-header-logo {
+  
+  height: 54px;
+  width: auto;
+  margin-right: 10px;
+}
+.clb-header-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.clb-header-main {
+  color: #0b3612;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+.clb-header-sub {
+  color: #888;
+  font-size: 1.02rem;
+  font-weight: 500;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 600px) {
+  .clb-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 8vw 8px 8vw;
+  }
+  .clb-header-logo {
+    height: 38px;
+    margin-bottom: 2px;
+  }
+  .clb-header-main {
+    font-size: 1.05rem;
+  }
+  .clb-header-sub {
+    font-size: 0.92rem;
+  }
+}
+.clb-sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 210px;
+  background: #fff;
+  box-shadow: 2px 0 12px #b2f7ef33;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 18px;
+}
+.clb-sidebar-logo {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 10px;
+  padding: 28px 0 24px 0;
+  border-bottom: none;
+  margin-bottom: 18px;
+}
+.clb-sidebar-logo img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 12px #b2f7ef55;
+  margin-bottom: 6px;
+}
+.clb-sidebar-logo span {
+  font-weight: 700;
+  color: #2ecc71;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+.clb-sidebar-menu {
+  list-style: none;
+  padding: 0 0 0 0;
+  margin: 0;
+  flex: 1;
+}
+.clb-sidebar-menu li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 24px;
+  font-size: 1.08rem;
+  color: #0b3612;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: background 0.15s, border-color 0.2s, color 0.2s;
+}
+.clb-sidebar-menu li:hover, .clb-sidebar-menu li.active {
+  background: #eaffea;
+  color: #2ecc71;
+  border-left: 4px solid #2ecc71;
+}
+.clb-sidebar-menu i {
+  font-size: 1.15rem;
+  min-width: 20px;
+  text-align: center;
+}
+.clb-sidebar-footer {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 0 10px 0;
+  border-top: 1px solid #eaffea;
+}
+.clb-sidebar-footer a {
+  color: #2ecc71;
+  font-size: 1.25rem;
+  transition: color 0.2s;
+}
+.clb-sidebar-footer a:hover {
+  color: #43e97b;
+}
+@media (max-width: 900px) {
+  .clb-sidebar { width: 54px; }
+  .clb-sidebar-logo span { display: none; }
+  .clb-sidebar-menu li { font-size: 0; padding: 13px 10px; justify-content: center; }
+  .clb-sidebar-menu li i { font-size: 1.25rem; }
+}
+@media (max-width: 600px) {
+  .clb-sidebar { display: none; }
+  .container { margin-left: 0 !important; }
+}
+.container {
+  margin-left: 210px;
+}
+@media (max-width: 900px) {
+  .container { margin-left: 54px; }
+}
+@media (max-width: 900px) {
+  .clb-sidebar-logo img { height: 48px; width: 48px; }
+  .clb-sidebar-logo { padding: 18px 0 12px 0; margin-bottom: 8px; }
+}
+@media (max-width: 600px) {
+  .clb-sidebar { display: none; }
+  .container { margin-left: 0 !important; padding: 8px 2vw; border-radius: 10px; }
+  .clb-header { margin-left: 0; }
+  h2 { font-size: 1.1rem; margin-bottom: 12px; text-align: center; }
+  #attendance-table { margin-top: 6px; }
+  table, thead, tbody, th, td, tr { display: block; width: 100%; }
+  table { border-radius: 8px; box-shadow: none; background: #f6fff8; margin-bottom: 12px; }
+  thead { display: none; }
+  tr { margin-bottom: 10px; border-bottom: 1px solid #b2f7ef55; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px #b2f7ef22; padding: 6px 0; }
+  td { padding: 7px 10px; text-align: left; position: relative; font-size: 0.98rem; }
+  td:before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #2ecc71;
+    display: inline-block;
+    width: 110px;
+    min-width: 90px;
+    margin-right: 8px;
+  }
+}
+</style>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
+</head>
+<body>
+   <div class="clb-sidebar">
+    <div class="clb-sidebar-logo">
+      <img src="/images/logo1.png" alt="Logo CLB">
+    </div>
+    <ul class="clb-sidebar-menu">
+      <li onclick="window.location.href='/diemdanhQR'">
+        <i class="fa fa-qrcode"></i> Quét mã QR
+      </li>
+      <li onclick="window.location.href='/status'">
+        <i class="fa fa-list-check"></i> Trạng thái
+      </li>
+      <li onclick="exportCSV()">
+        <i class="fa fa-file-csv"></i> Xuất CSV
+      </li>
+      <li onclick="loadAttendance()">
+        <i class="fa fa-rotate"></i> Làm mới
+      </li>
+      <li onclick="window.location.href='/logout'">
+        <i class="fa fa-sign-out-alt"></i> Đăng xuất
+      </li>
+    </ul>
+    <div class="clb-sidebar-footer">
+      <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
+      <a href="tel:0123456789"><i class="fa fa-phone"></i></a>
+    </div>
+  </div>
+  <!-- HEADER KIỂU TDTU -->
+  <div class="clb-header">
+    <div class="clb-header-inner">
+      <div class="clb-header-title">
+        <div class="clb-header-main">CÂU LẠC BỘ KỸ NĂNG ĐOÀN HỘI </div>
+        <div class="clb-header-sub">Trường THPT Lý Thường Kiệt</div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Quản trị danh sách trại sinh</h2>
+    <!-- Thanh tìm kiếm -->
+    <div style="width:100%;max-width:400px;margin:0 auto 16px;">
+      <input id="searchInput" type="text" placeholder="Tìm kiếm tên, mã số..." style="width:100%;padding:8px 12px;border-radius:6px;border:1px solid #b2f7ef;font-size:1rem;">
+    </div>
+    <div id="attendance-table"></div>
+  </div>
+  <script>
+    // ...giữ nguyên phần script của bạn...
+    async function loadAttendance() {
+      const res = await fetch('/api/attendance');
+      const data = await res.json();
+      renderTable(data);
+    }
+    function renderTable(data) {
+    const labels = ['STT', 'Họ tên', 'Đội', 'SĐT', 'Mã số', 'Trạng thái', 'Thời gian'];
+    let html = '<table><thead><tr>';
+    labels.forEach(l => html += `<th>${l}</th>`);
+    html += '</tr></thead><tbody>';
+    data.forEach((row, i) => {
+      html += `<tr>
+        <td data-label="STT">${i+1}</td>
+        <td data-label="Họ tên">${row.name || ""}</td>
+        <td data-label="Đội">${row.team || ""}</td>
+        <td data-label="SĐT">${row.phone || ""}</td>
+        <td data-label="Mã số">${row.code || ""}</td>
+        <td data-label="Trạng thái">${row.status || ""}</td>
+        <td data-label="Thời gian">${row.time || ""}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('attendance-table').innerHTML = html;
+    } 
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const keyword = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#attendance-table table tr');
+      rows.forEach((row, idx) => {
+        if (idx === 0) return;
+        row.style.display = row.innerText.toLowerCase().includes(keyword) ? '' : 'none';
+      });
+    });
+    const style = document.createElement('style');
+    style.innerHTML = `table tr:hover { background: #eaffea; }`;
+    document.head.appendChild(style);
+    loadAttendance();
+    function exportCSV() {
+      window.location.href = "/api/export-csv";
+    }
+  </script>
+</body>
+</html>
