@@ -6,7 +6,7 @@
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "googleapis": "^154.0.0",
-    "start": "node index.js"
+    "start": "node server.js"
   }
   
 }
